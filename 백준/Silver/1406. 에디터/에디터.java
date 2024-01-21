@@ -8,16 +8,11 @@ public class Main {
 		LinkedList<Character> arr = new LinkedList<>();
 
 		String str = br.readLine();
-
-		for (int i = 0; i < str.length(); i++) {
-			arr.add(str.charAt(i));
-			// iter.next();
-		}
 		ListIterator<Character> iter = arr.listIterator();
 
-		while (iter.hasNext())
-			iter.next();
-		// cursor 맨 뒤로 이동
+		for (int i = 0; i < str.length(); i++) {
+			iter.add(str.charAt(i));
+		}
 
 		int num = Integer.parseInt(br.readLine());
 		for (int i = 0; i < num; i++) {
