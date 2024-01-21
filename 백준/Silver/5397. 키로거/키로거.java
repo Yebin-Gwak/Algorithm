@@ -2,57 +2,45 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
 		int T = Integer.parseInt(br.readLine());
 		
-		
-		for (int tc = 0; tc < T; tc++) {
-			Stack<Character> stkL = new Stack<>();
-			Stack<Character> stkR = new Stack<>();
-
+		for(int tc = 0; tc < T; tc++) {
+			StringBuilder sb = new StringBuilder();			
+			LinkedList<Character> arr = new LinkedList<>();
+			ListIterator<Character> iter = arr.listIterator();
 			String cmd = br.readLine();
-			for (int i = 0; i < cmd.length(); i++) {
-				char c = cmd.charAt(i);
-
-				switch (c) {
-				case '<': 
-					if(!stkL.isEmpty())
-						stkR.add(stkL.pop());
+			for(int i = 0; i < cmd.length(); i++) {
+				switch(cmd.charAt(i)) {
+				
+				case '<':
+					if(iter.hasPrevious()) iter.previous();
 					break;
 					
 				case '>':
-					if(!stkR.isEmpty())
-						stkL.add(stkR.pop());
+					if(iter.hasNext()) iter.next();
 					break;
 					
 				case '-':
-					if(!stkL.isEmpty())
-						stkL.pop();
+					if(iter.hasPrevious()) {
+						iter.previous();
+						iter.remove();
+					}
 					break;
 					
 				default:
-					stkL.add(c);
-					break;
+					iter.add(cmd.charAt(i));
+					
 				}
 			}
 			
-			while(!stkR.isEmpty())
-				stkL.add(stkR.pop());
+			for(char c : arr) {
+				sb.append(c);
+			}
+			System.out.println(sb);
 			
-			while(!stkL.isEmpty())
-				stkR.add(stkL.pop());
 			
-			while(!stkR.isEmpty())
-				bw.write(stkR.pop());
-			
-			bw.write("\n");
 		}
-		br.close();
-		bw.close();
-
 	}
-
 }
