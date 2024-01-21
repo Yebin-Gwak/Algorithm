@@ -4,60 +4,53 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		Stack<Character> stkL = new Stack<>();
-		Stack<Character> stkR = new Stack<>();
+		StringBuilder sb = new StringBuilder();
+		LinkedList<Character> arr = new LinkedList<>();
 
 		String str = br.readLine();
 
 		for (int i = 0; i < str.length(); i++) {
-			stkL.add(str.charAt(i));
+			arr.add(str.charAt(i));
+			// iter.next();
 		}
-		int num = Integer.parseInt(br.readLine());
+		ListIterator<Character> iter = arr.listIterator();
 
+		while (iter.hasNext())
+			iter.next();
+		// cursor 맨 뒤로 이동
+
+		int num = Integer.parseInt(br.readLine());
 		for (int i = 0; i < num; i++) {
 			String cmd = br.readLine();
+			char c = cmd.charAt(0);
 
-			switch (cmd.charAt(0)) {
-			case 'L': {
-				if (stkL.size() != 0)
-					stkR.add(stkL.pop());
+			switch (c) {
+			case 'L':
+				if (iter.hasPrevious())
+					iter.previous();
+				break;
+
+			case 'D':
+				if (iter.hasNext())
+					iter.next();
+				break;
+
+			case 'B':
+				if (iter.hasPrevious()) {
+					iter.previous();
+					iter.remove();
+				}
+				break;
+
+			case 'P':
+				iter.add(cmd.charAt(2));
 				break;
 			}
 
-			case 'D': {
-				if (stkR.size() != 0)
-					stkL.add(stkR.pop());
-				break;
-			}
-
-			case 'B': {
-				if (stkL.size() != 0)
-					stkL.pop();
-				break;
-			}
-
-			case 'P': {
-				stkL.add(cmd.charAt(2));
-				break;
-			}
-
-			}
-
 		}
-		while(!stkR.empty()) {
-			stkL.add(stkR.pop());
-		}
+		for (char c : arr)
+			sb.append(c);
+		System.out.println(sb);
 
-		while(!stkL.empty()) {
-			stkR.add(stkL.pop());
-		}
-
-		while(!stkR.empty()) {
-			bw.write(stkR.pop());
-		}
-		br.close();
-		bw.close();
 	}
-
 }
