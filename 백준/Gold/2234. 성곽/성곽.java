@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	static int N, M, count;
+	static int N, M;
 	static boolean[][] visited;
 	static int[] dx = { 1, 0, -1, 0 };
 	static int[] dy = { 0, 1, 0, -1 };
@@ -16,34 +16,36 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		visited = new boolean[M][N];
-		map = new int[M][N];
-		field = new int[M][N];
-		count = 0;
-		int maxRoomSize = 0;
-		ArrayList<Integer> roomSizes = new ArrayList<>();
-		int maxSizeSum = 0;
-		roomSizes.add(0);
+		map = new int[M][N]; // 입력값 저장용 배열
+		field = new int[M][N]; // map을 해석, 각 방 번호로 변환하여 저장하는 배열
 
-		for (int i = 0; i < M; i++) {
+		int count = 0; // 방 개수
+		int maxRoomSize = 0; // 가장 큰 방의 크기
+		int[] roomSizes = new int[2501]; // 각 방의 크기를 담는 배열
+
+		int maxSizeSum = 0; // 부수고 합쳤을 때 가장 큰 값
+
+		for (int i = 0; i < M; i++) { // 입력값 map에 저장
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < N; j++)
 				map[i][j] = Integer.parseInt(st.nextToken());
 		}
 
-		for (int i = 0; i < M; i++) {
+		for (int i = 0; i < M; i++) { // bfs로 각 방 번호 매김 + 해당 방의 크기 리턴
 			for (int j = 0; j < N; j++) {
 				if (!visited[i][j]) {
 					count++;
 					int size = bfs(i, j, count);
-					roomSizes.add(size);
-					maxRoomSize = Math.max(maxRoomSize, size);
+					roomSizes[count] = size;
+					if (size > maxRoomSize)
+						maxRoomSize = size;
 				}
 
 			}
 		}
 
-		ArrayList<ArrayList<Integer>> link = new ArrayList<>();
-		link.add(new ArrayList<Integer>());
+		ArrayList<ArrayList<Integer>> link = new ArrayList<>(); // 서로 인접한 방 리스트
+		link.add(new ArrayList<Integer>()); // 0번 인덱스
 
 		for (int a = 1; a <= count; a++) {
 			ArrayList<Integer> tempArr = new ArrayList<>();
@@ -72,7 +74,9 @@ public class Main {
 
 		for (int i = 1; i < link.size(); i++) {
 			for (int j = 0; j < link.get(i).size(); j++) {
-				maxSizeSum = Math.max(maxSizeSum, roomSizes.get(i) + roomSizes.get(link.get(i).get(j)));
+				int tempSum = roomSizes[i] + roomSizes[link.get(i).get(j)];
+				if(tempSum > maxSizeSum)
+					maxSizeSum = tempSum;
 			}
 		}
 
@@ -93,7 +97,7 @@ public class Main {
 			int x = temp[0];
 			int y = temp[1];
 			field[x][y] = count;
-			String wall = String.format("%04d", Integer.parseInt(Integer.toBinaryString(map[x][y])));
+			String wall = String.format("%04d", Integer.parseInt(Integer.toBinaryString(map[x][y]))); //map의 정수값을 4자리 2진수로 변환
 
 			for (int i = 0; i < 4; i++) {
 				int nx = x + dx[i];
