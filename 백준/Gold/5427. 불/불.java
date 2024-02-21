@@ -74,7 +74,6 @@ public class Main {
 					int ny = y + dy[j];
 					if(0 <= nx && nx < H && 0 <= ny && ny < W && map[nx][ny] == '.' && !visited[nx][ny]) {
 						visited[nx][ny] = true;
-						map[nx][ny] = '@';
 						deque.add(new int[] {nx, ny});
 						
 					}
