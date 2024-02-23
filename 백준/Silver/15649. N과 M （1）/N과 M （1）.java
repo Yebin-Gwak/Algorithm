@@ -2,45 +2,45 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	static int[] numbers;
-	static boolean[] isSelected;
 	static int N, M;
-	static StringTokenizer st;
+	static int[] numbers;
+	static boolean[] visited;
+	static int[] input;
+	static StringBuilder sb = new StringBuilder();
 
 	public static void main(String[] args) throws IOException {
-		Scanner sc = new Scanner(System.in);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		numbers = new int[N];
+		visited = new boolean[N];
+		input = new int[M];
 
-		N = sc.nextInt();
-		M = sc.nextInt();
+		for (int i = 0; i < N; i++)
+			numbers[i] = i + 1;
 
-		numbers = new int[N + 1];
-		isSelected = new boolean[N + 1];
+		permutation(0);
 
-		recursion(0);
-		sc.close();
+		System.out.print(sb.toString());
+
 	}
 
-	private static void recursion(int cnt) {
-		if (cnt == M) {
-			st = new StringTokenizer(Arrays.toString(numbers), "[],");
-			for (int j = 1; j <= M; j++)
-				System.out.print(st.nextToken());
-			System.out.print("\n");
-
+	private static void permutation(int cnt) {
+		if(cnt == M) {
+			for(int x : input)
+				sb.append(x).append(" ");
+			sb.append("\n");
 			return;
-
 		}
-
-		for (int i = 1; i <= N; i++) {
-			if (isSelected[i])
-				continue;
-			isSelected[i] = true;
-			numbers[cnt] = i;
-			recursion(cnt + 1);
-			isSelected[i] = false;
-
+		
+		for(int i = 0; i < N; i++) {
+			if(visited[i]) continue;
+			visited[i] = true;
+			input[cnt] = numbers[i];
+			permutation(cnt + 1);
+			visited[i] = false;
 		}
-
 	}
 
 }
