@@ -9,12 +9,6 @@ public class Main {
 			this.x = x;
 			this.y = y;
 		}
-
-		@Override
-		public String toString() {
-			return "Virus [x=" + x + ", y=" + y + "]";
-		}
-		
 		
 	}
 	
@@ -39,7 +33,6 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		
-		
 		init();
 
 		comb(0, 0);
@@ -50,7 +43,6 @@ public class Main {
 			System.out.println(ans);
 		
 	}
-
 
 	private static void comb(int start, int cnt) {
 		if(cnt == M) {
@@ -76,7 +68,7 @@ public class Main {
 		int cnt = zeroCount;
 		int time = 0;
 		
-		w :while(!deque.isEmpty()) {
+		while(!deque.isEmpty()) {
 			time++;
 			int size = deque.size();
 			for(int t = 0; t < size; t++) {
