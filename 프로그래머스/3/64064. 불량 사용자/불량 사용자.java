@@ -3,7 +3,7 @@ import java.io.*;
 
 class Solution {
     // 8:20
-    static HashSet<Integer> list = new HashSet<>();
+    static List<Integer> list = new ArrayList<>();
     static List<String> bannedList = new ArrayList<>();
     static int N, M;
     static boolean[] visited;
@@ -56,20 +56,6 @@ class Solution {
             comb(cnt + 1);
             visited[v] = false;
         }
-        /*
-        for(int i = 0; i < N; i++){
-            if(visited[i]) continue;
-            visited[i] = true;
-            for(int j = 0; j < M; j++){
-                if(visited2[j]) continue;
-                visited2[j] = true;
-                if(possibleList[j].contains(i)){
-                    comb(cnt + 1);
-                }
-                visited2[j] = false;
-            }
-            visited[i] = false;
-        }*/
     }
     
     private static boolean validCheck(int a, int b){
@@ -96,8 +82,9 @@ class Solution {
                 sum += mul;
             mul /= 10;
         }
-        
-        list.add(sum);
+        if(!list.contains(sum)){
+            list.add(sum);
+        }
 
     }
 }
