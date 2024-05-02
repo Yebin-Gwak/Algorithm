@@ -2,26 +2,21 @@ import java.util.*;
 import java.io.*;
 
 class Solution {
-    // 8:20
     static List<Integer> list = new ArrayList<>();
     static List<String> bannedList = new ArrayList<>();
     static int N, M;
     static boolean[] visited;
-    static boolean[] visited2;
-    
+
     static String[] userList;
     static String[] trashList;
     
     static List<Integer>[] possibleList;
     
-    
     static int answer = 0;
     public int solution(String[] user_id, String[] banned_id) {
         N = user_id.length;
         M = banned_id.length;
-
         visited = new boolean[N];
-        visited2 = new boolean[M];
         
         possibleList = new ArrayList[N];
         for(int i = 0; i < N; i++)

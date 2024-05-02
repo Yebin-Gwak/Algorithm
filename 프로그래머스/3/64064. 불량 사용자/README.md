@@ -1,10 +1,10 @@
 # [level 3] 불량 사용자 - 64064 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64064?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64064) 
 
 ### 성능 요약
 
-메모리: 74.1 MB, 시간: 0.12 ms
+메모리: 73.6 MB, 시간: 0.11 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 04월 30일 22:43:43
+2024년 05월 02일 13:47:26
 
 ### 문제 설명
 
