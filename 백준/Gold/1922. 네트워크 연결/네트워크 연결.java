@@ -1,14 +1,10 @@
-
 import java.util.*;
 import java.io.*;
 
 public class Main {
 	static class Node implements Comparable<Node>{
-		int from;
-		int to;
-		int cost;
+		int from, to, cost;
 		public Node(int from, int to, int cost) {
-			super();
 			this.from = from;
 			this.to = to;
 			this.cost = cost;
@@ -19,24 +15,15 @@ public class Main {
 			return this.cost - o.cost;
 		}
 
-		@Override
-		public String toString() {
-			return "Node [from=" + from + ", to=" + to + ", cost=" + cost + "]";
-		}
-		
-		
-		
 	}
 	static int N, M;
 	static int cost = 0;
 	static int[] parents;
 	static PriorityQueue<Node> pq = new PriorityQueue<>();
 	
-	
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
-	
 	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
 		N = Integer.parseInt(br.readLine());
 		M = Integer.parseInt(br.readLine());
 		make();
@@ -61,11 +48,10 @@ public class Main {
 		
 	}
 
-	private static void make() throws IOException {
+	private static void make() {
 		parents = new int[N + 1];
 		for(int i = 1; i <= N; i++)
 			parents[i] = i;
-		
 	}
 	
 	private static int find(int a) {
