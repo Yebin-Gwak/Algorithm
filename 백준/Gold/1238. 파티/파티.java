@@ -59,6 +59,7 @@ public class Main{
 
 
 	private static void dijkstra(int start, int dest) {
+		pq.clear();
 		pq.add(new Node(start, 0));
 		Arrays.fill(distances, Integer.MAX_VALUE);
 		Arrays.fill(visited, false);
@@ -76,6 +77,8 @@ public class Main{
 					pq.add(new Node(next.dest, distances[next.dest]));
 				}
 			}
+			if(visited[dest])
+				return;
 		}
 		
 	}
