@@ -6,20 +6,15 @@ public class Main {
 		int x, y;
 
 		public Pos(int x, int y) {
-			super();
 			this.x = x;
 			this.y = y;
-		}
-
-		@Override
-		public String toString() {
-			return "Pos [x=" + x + ", y=" + y + "]";
 		}
 		
 	}
 
 	static int N, M;
 	static char[][] map;
+	static boolean[][][][] visited;
 	static Pos red, blue;
 	static Deque<Pos[]> deque = new ArrayDeque<>();
 	static int d = 0;
@@ -33,6 +28,7 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		map = new char[N][M];
+		visited = new boolean[N][M][N][M];
 		for(int i = 0; i < N; i++) {
 			String data = br.readLine();
 			for(int j = 0; j < M; j++) {
@@ -56,6 +52,7 @@ public class Main {
 
 	private static void bfs() {
 		deque.add(new Pos[] {red, blue});
+		visited[red.x][red.y][blue.x][blue.y]= true; 
 		
 		while(++time <= 10) {
 			int size = deque.size();
@@ -118,9 +115,10 @@ public class Main {
 			System.out.println(time);
 			System.exit(0);
 		}
-		if(red.x == resultR.x && red.y == resultR.y && blue.x == resultB.x && blue.y == resultB.y)
+		if(visited[resultR.x][resultR.y][resultB.x][resultB.y])
 			return null;
 		
+		visited[resultR.x][resultR.y][resultB.x][resultB.y] = true;
 		return new Pos[] {resultR, resultB};
 	}
 
