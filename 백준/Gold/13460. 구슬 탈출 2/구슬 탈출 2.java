@@ -6,32 +6,27 @@ public class Main {
 		int x, y;
 
 		public Pos(int x, int y) {
+			super();
 			this.x = x;
 			this.y = y;
 		}
+
+		@Override
+		public String toString() {
+			return "Pos [x=" + x + ", y=" + y + "]";
+		}
 		
 	}
-	static class Location{
-		Pos red, blue;
-		
-		public Location() {
-		}
 
-		public Location(Pos red, Pos blue) {
-			this.red = red;
-			this.blue = blue;
-		}
-
-	}
 	static int N, M;
 	static char[][] map;
-	static Pos red, blue, goal;
-	static Deque<Location> deque = new ArrayDeque<>();
+	static Pos red, blue;
+	static Deque<Pos[]> deque = new ArrayDeque<>();
 	static int d = 0;
 	static int[] dx = {-1, 1, 0, 0};
 	static int[] dy = {0, 0, -1, 1};
 	static int time = 0;
-	static Location now;
+	static Pos[] now;
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -50,10 +45,6 @@ public class Main {
 					blue = new Pos(i, j);
 					map[i][j] = '.';
 				}
-				else if(c == 'O') {
-					goal = new Pos(i, j);
-					map[i][j] = c;
-				}
 				else
 					map[i][j] = c;
 			}
@@ -64,31 +55,30 @@ public class Main {
 	}
 
 	private static void bfs() {
-		deque.add(new Location(red, blue));
+		deque.add(new Pos[] {red, blue});
 		
 		while(++time <= 10) {
 			int size = deque.size();
 			for(int t = 0; t < size; t++) {
 				now = deque.poll();
 				for(int i = 0; i < 4; i++) {
-					red = now.red;
-					blue = now.blue;
+					red = now[0];
+					blue = now[1];
 					d = i;
-					Location l = play(now.red, now.blue);
+					Pos[] l = play();
 					
-					if(l != null) {
+					if(l != null)
 						deque.add(l);
-						
-					}
 				}
 			}
 		}
 		System.out.println(-1);
 	}
 
-	private static Location play(Pos red, Pos blue) {
+	private static Pos[] play() {
 		map[red.x][red.y] = 'R';
 		map[blue.x][blue.y] = 'B';
+		
 		boolean redTurn = true;
 		if(d == 0 && blue.x < red.x) redTurn = false;
 		if(d == 1 && blue.x > red.x) redTurn = false;
@@ -131,13 +121,13 @@ public class Main {
 		if(red.x == resultR.x && red.y == resultR.y && blue.x == resultB.x && blue.y == resultB.y)
 			return null;
 		
-		return new Location(resultR, resultB);
+		return new Pos[] {resultR, resultB};
 	}
 
 	private static Pos move(Pos ball) {
 		int x = ball.x;
 		int y = ball.y;
-		if(d == 0 || d == 1) {
+		if(d < 2) {
 			while (true) {
 				x += dx[d];
 				if(map[x][y] == '.')
