@@ -31,10 +31,10 @@ public class Main {
 	}
 	private static void solve() {
 		int[][] field = new int[3][3];
-		int[][] tempField = new int[3][3];
 		Deque<Integer> deque = new ArrayDeque<>();
 		deque.add(value);
 		int now;
+		int temp = 0;
 		int cut = 100000000;
 		int x = 0;
 		int y = 0;
@@ -63,20 +63,17 @@ public class Main {
 				}
 				
 				for(int i = 0; i < 4; i++) {
-					for(int j = 0; j < 3; j++)
-						tempField[j] = field[j].clone();
-						
 					int nx = x + dx[i];
 					int ny = y + dy[i];
 					if(0 <= nx && nx < 3 && 0 <= ny && ny < 3) {
-						int temp = tempField[nx][ny];
-						tempField[nx][ny] = 9;
-						tempField[x][y] = temp;
+						temp = field[nx][ny];
+						field[nx][ny] = 9;
+						field[x][y] = temp;
 						
 						tempValue = 0;
 						for(int j = 0; j < 3; j++) {
 							for(int k = 0; k < 3; k++) {
-								tempValue = (tempValue * 10) + tempField[j][k];
+								tempValue = (tempValue * 10) + field[j][k];
 							}
 						}
 						
@@ -85,6 +82,8 @@ public class Main {
 							deque.add(tempValue);
 						}
 						
+						field[nx][ny] = temp;
+						field[x][y] = 9;
 					}
 					
 					
