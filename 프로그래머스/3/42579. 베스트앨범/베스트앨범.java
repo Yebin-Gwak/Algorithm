@@ -55,8 +55,7 @@ class Solution {
         }
         PriorityQueue<Album> albumPq = new PriorityQueue<>((o1, o2) -> o2.count - o1.count);
         for(String s : set){
-            Album album = genreMap.get(s);
-            albumPq.add(album);
+            albumPq.add(genreMap.get(s));
         }
         
         ArrayList<Integer> answer = new ArrayList<>();
