@@ -4,7 +4,8 @@ import java.io.*;
 public class Main {
 	
 	static class Node{
-		HashMap<Character, Node> next = new HashMap<>();
+		Node[] next = new Node[26];
+		int size = 0;
 		boolean isEnd = false;
 	}
 	
@@ -14,22 +15,27 @@ public class Main {
 		
 		public void insert(String s) {
 			Node now = root;
-			for(char c : s.toCharArray()) {
-				now.next.putIfAbsent(c, new Node());
-				now = now.next.get(c);
+			for(int i = 0; i < s.length(); i++) {
+				int n = s.charAt(i) - 'a';
+				if(now.next[n] == null) {
+					now.size++;
+					now.next[n] = new Node();
+				}
+				now = now.next[n];
 			}
 			now.isEnd = true;
 		}
 		
 		public int find(String s) {
-			Node now = root.next.get(s.charAt(0));
+			Node now = root.next[s.charAt(0) - 'a'];
 			int count = 1;
 			
 			for(int i = 1; i < s.length(); i++) {
-				if(now.next.size() > 1 || (now.next.size() == 1 && now.isEnd)) {
+				int n = s.charAt(i) - 'a';
+				if(now.size > 1 || (now.size == 1 && now.isEnd)) {
 					count++;
 				}
-				now = now.next.get(s.charAt(i));
+				now = now.next[n];
 			}
 			
 			return count;
