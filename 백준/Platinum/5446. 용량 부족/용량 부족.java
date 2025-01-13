@@ -5,24 +5,20 @@ public class Main {
 
 	static class Node {
 		HashMap<Character, Node> next = new HashMap<>();
-		char value;
 		boolean isProtect = false;
-
 	}
 
 	static class Trie {
 		Node root = new Node();
 		ArrayList<String> removeFileList = new ArrayList<>();
-		
 
-		public void insertFile(String s) {
+		public void insertRemoveFile(String s) {
 			removeFileList.add(s);
 			Node now = root;
 			for (int i = 0; i < s.length(); i++) {
 				char c = s.charAt(i);
 				now.next.putIfAbsent(c, new Node());
 				now = now.next.get(c);
-				now.value = c;
 			}
 		}
 
@@ -33,10 +29,8 @@ public class Main {
 				char c = s.charAt(i);
 				now.next.putIfAbsent(c, new Node());
 				now = now.next.get(c);
-				now.value = c;
 				now.isProtect = true;
 			}
-			now.isProtect = true;
 		}
 		
 		public int remove() {
@@ -82,12 +76,10 @@ public class Main {
 		for (int tc = 0; tc < T; tc++) {
 			trie = new Trie();
 			int N = Integer.parseInt(br.readLine());
-			String[] remove = new String[N];
 
 			for (int i = 0; i < N; i++) {
 				String s = br.readLine();
-				trie.insertFile(s);
-				remove[i] = s;
+				trie.insertRemoveFile(s);
 			}
 
 			int M = Integer.parseInt(br.readLine());
