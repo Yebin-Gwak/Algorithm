@@ -12,21 +12,18 @@ public class Main {
 		st = new StringTokenizer(br.readLine());
 
 		ArrayDeque<int[]> left = new ArrayDeque<>();
-		ArrayDeque<int[]> right = new ArrayDeque<>();
-		
-		for(int i = 0; i < N; i++) {
-			right.add(new int[] {i, Integer.parseInt(st.nextToken())});
-		}
-		int[] ans = new int[N];
-		while(!right.isEmpty()) {
-			int r = right.peekFirst()[1];
-			while(!left.isEmpty() && left.peekLast()[1] < r) 
-				ans[left.pollLast()[0]] = r;
 
-			left.addLast(right.pollFirst());
+		int[] ans = new int[N];
+		for(int i = 0; i < N; i++) {
+			int n = Integer.parseInt(st.nextToken());
+			
+			while(!left.isEmpty() && left.peekLast()[1] < n) 
+				ans[left.pollLast()[0]] = n;
+
+			left.addLast(new int[] {i, n});
 		}
 		
-		while(!left.isEmpty()) 
+		while(!left.isEmpty())
 			ans[left.poll()[0]] = -1;
 		
 		for(int n : ans) 
@@ -34,5 +31,4 @@ public class Main {
 		
 		System.out.print(sb.toString().trim());
 	}
-
 }
