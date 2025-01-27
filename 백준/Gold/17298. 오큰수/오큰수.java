@@ -5,37 +5,34 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
 
-		int len = Integer.parseInt(br.readLine());
+		int N = Integer.parseInt(br.readLine());
 		st = new StringTokenizer(br.readLine());
 
-		Stack<Integer> prev = new Stack<Integer>();
-		Stack<Integer> index = new Stack<Integer>();
-
-		int[] ans = new int[len];
-		int idx = 0;
-
-		for (int i = 0; i < len; i++) {
-			int next = Integer.parseInt(st.nextToken());
-
-			while (!prev.isEmpty() && next > prev.peek()) {
-				ans[index.pop()] = next;
-				prev.pop();
-			}
-
-			prev.push(next);
-			index.push(idx++);
+		ArrayDeque<int[]> left = new ArrayDeque<>();
+		ArrayDeque<int[]> right = new ArrayDeque<>();
+		
+		for(int i = 0; i < N; i++) {
+			right.add(new int[] {i, Integer.parseInt(st.nextToken())});
 		}
+		int[] ans = new int[N];
+		while(!right.isEmpty()) {
+			int r = right.peekFirst()[1];
+			while(!left.isEmpty() && left.peekLast()[1] < r) 
+				ans[left.pollLast()[0]] = r;
 
-		while (!index.isEmpty())
-			ans[index.pop()] = -1;
-
-		for (int value : ans)
-			sb.append(value + " ");
-
-		System.out.println(sb.toString());
+			left.addLast(right.pollFirst());
+		}
+		
+		while(!left.isEmpty()) 
+			ans[left.poll()[0]] = -1;
+		
+		for(int n : ans) 
+			sb.append(n + " ");
+		
+		System.out.print(sb.toString().trim());
 	}
 
 }
