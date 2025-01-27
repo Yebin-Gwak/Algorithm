@@ -1,54 +1,42 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-
-	static int N;
-	static int[] arr;
-	static int count = 0;
-	static int sum = 0;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-		N = Integer.parseInt(br.readLine());
-		arr = new int[N];
-
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
-
-		Arrays.sort(arr);
-
-		if (N <= 2) {
+		int N = Integer.parseInt(br.readLine());
+		if(N <= 2) {
 			System.out.println(0);
 			return;
 		}
-
+		st = new StringTokenizer(br.readLine());
+		int[] arr = new int[N];
 		for (int i = 0; i < N; i++) {
-			int start = 0;
-			int end = N - 1;
-			if(start == i)
-				start++;
-			if(end == i)
-				end--;
-			
-			while (start < N && end >= 0 && !(start == end)) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		Arrays.sort(arr);
+
+		int ans = 0;
+		for (int i = 0; i < N; i++) {
+			int v = arr[i];
+			int sum = 0;
+			int start = (i == 0) ? 1 : 0;
+			int end = (N - 1 == i) ? N - 2 : N - 1;
+			while (start < end) {
 				sum = arr[start] + arr[end];
-				if (sum == arr[i]) {
-					count++;
+				if(sum == v) {
+					ans++;
 					break;
 				}
-				
-				if (sum > arr[i])
-					end = (end - 1 == i) ? end - 2 : end - 1;
-				else
-					start = (start + 1 == i) ? start + 2 : start + 1;
+				if (sum < v) {
+					start += (start + 1 == i) ? 2 : 1;
+				}else {
+					end-= (end - 1 == i) ? 2 : 1;
+				}
 			}
 		}
-
-		System.out.println(count);
-
+		System.out.println(ans);
 	}
-
 }
