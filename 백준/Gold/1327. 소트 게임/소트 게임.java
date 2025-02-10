@@ -51,11 +51,14 @@ public class Main {
 	
 	private static int reverse(int now, int start) {
 		String s = Integer.toString(now);
-		for(int i = 0; i < s.length(); i++)
+		for(int i = 0; i < start; i++)
 			arr[i] = s.charAt(i) - '0';
 		
 		for(int i = 0; i < K; i++) 
 			arr[i + start] = s.charAt(start + (K - 1) - i) - '0';
+		
+		for(int i = start + K; i < s.length(); i++)
+			arr[i] = s.charAt(i) - '0';
 		
 		return getValue();
 	}
