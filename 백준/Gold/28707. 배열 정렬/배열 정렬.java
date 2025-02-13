@@ -6,7 +6,7 @@ public class Main {
 	static int N, M;
 	static int[] arr;
 	static int[][] cmd;
-	static HashMap<Integer, Integer> visited = new HashMap<>();
+	static HashSet<Integer> visited = new HashSet<>();
 
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,13 +43,13 @@ public class Main {
 			if(isSort(now[0]))
 				return now[1];
 			
-			if(visited.containsKey(now[0]))
+			if(visited.contains(now[0]))
 				continue;
-			visited.put(now[0], now[1]);
+			visited.add(now[0]);
 			
 			for(int i = 0; i < M; i++) {
 				int next = reverse(now[0], i);
-				if(!visited.containsKey(next)) {
+				if(!visited.contains(next)) {
 					pq.add(new int[] {next, now[1] + cmd[i][2]});
 				}
 			}
@@ -83,6 +83,7 @@ public class Main {
 		int before = 0;
 		int div = (int) Math.pow(10, N - 1);
 		value %= div * 10;
+		
 		for(int i = 0; i < N; i++) {
 			int next = (value / div == 0) ? 10 : value / div;
 			if(next < before)
@@ -91,6 +92,7 @@ public class Main {
 			value %= div;
 			div /= 10;
 		}
+		
 		return true;
 	}
 
