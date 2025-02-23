@@ -4,7 +4,6 @@ import java.io.*;
 public class Main {
 
 	static int[] parents;
-	static boolean[] trees;
 	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,12 +16,11 @@ public class Main {
 			int M = Integer.parseInt(st.nextToken());
 			if(N == 0 && M == 0)
 				break;
-			tc++;
 			
+			tc++;
 			parents = new int[N + 1];
 			for(int i = 1; i <= N; i++)
 				parents[i] = i;
-			trees = new boolean[N + 1];
 			
 			for(int i = 0; i < M; i++) {
 				st = new StringTokenizer(br.readLine());
@@ -33,9 +31,10 @@ public class Main {
 			
 			int cnt = 0;
 			for(int i = 1; i <= N; i++) {
-				if(!trees[find(i)]) {
+				int n = find(i);
+				if(n > 0) {
 					cnt++;
-					trees[parents[i]] = true;
+					parents[n] = 0;
 				}
 			}
 			
@@ -62,12 +61,13 @@ public class Main {
 		int aRoot = find(a);
 		int bRoot = find(b);
 		if(aRoot == bRoot) {
-			trees[aRoot] = true;
+			parents[aRoot] = 0;
 			return;
 		}
-		if(trees[aRoot] || trees[bRoot]) {
-			trees[aRoot] = true;
-			trees[bRoot] = true;
+		if(parents[aRoot] == 0 || parents[bRoot] == 0) {
+			parents[aRoot] = 0;
+			parents[bRoot] = 0;
+			return;
 		}
 		parents[bRoot] = parents[aRoot];
 	}
