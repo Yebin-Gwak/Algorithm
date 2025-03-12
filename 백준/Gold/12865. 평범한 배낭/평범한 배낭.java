@@ -8,27 +8,17 @@ public class Main {
 		
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
+		int[] dp = new int[K + 1];
 		
-		int[] w = new int[N + 1];
-		int[] v = new int[N + 1];
-		int[][] dp = new int[N + 1][K + 1];
-		
-		for(int i = 1; i <= N; i++) {
+		for(int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
-			w[i] = Integer.parseInt(st.nextToken());
-			v[i] = Integer.parseInt(st.nextToken());
+			int w = Integer.parseInt(st.nextToken());
+			int v = Integer.parseInt(st.nextToken());
+			for(int j = K; j >= w; j--)
+				dp[j] = Math.max(dp[j], dp[j - w] + v);
 		}
 		
-		for(int i = 1; i <= N; i++) {
-			for(int j = 1; j <= K; j++) {
-				if(w[i] > j) 
-					dp[i][j] = dp[i - 1][j];
-				else
-					dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
-			}
-		}
-		
-		System.out.println(dp[N][K]);
+		System.out.println(dp[K]);
 		
 	}
 }
