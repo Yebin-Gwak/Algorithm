@@ -2,31 +2,30 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	static class Pos implements Comparable<Pos>{
-		int x, y, size;
-
-		public Pos(int x, int y, int size) {
+	static class Node implements Comparable<Node>{
+		int x;
+		int y;
+		int cost;
+		
+		public Node(int x, int y, int cost) {
 			this.x = x;
 			this.y = y;
-			this.size = size;
-		}
-
-		@Override
-		public int compareTo(Pos o) {
-			return this.size - o.size;
+			this.cost = cost;
 		}
 		
+		@Override
+		public int compareTo(Node o) {
+			return this.cost - o.cost;
+		}
 		
 	}
-	
+
 	static int N;
 	static int[][] map;
 	static int[][] dp;
-	static PriorityQueue<Pos> pq = new PriorityQueue<>();
-	static int[] dx = {1, -1, 0, 0};
-	static int[] dy = {0, 0, 1, -1};
-	static int ans = 0;
-	
+	static int[] dx = new int[] {1, -1, 0, 0};
+	static int[] dy = new int[] {0, 0, 1, -1};
+	static PriorityQueue<Node> pq = new PriorityQueue<>();
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -34,45 +33,39 @@ public class Main {
 		N = Integer.parseInt(br.readLine());
 		map = new int[N][N];
 		dp = new int[N][N];
-		
 		for(int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
 			for(int j = 0; j < N; j++) {
-				int value = Integer.parseInt(st.nextToken());
-				map[i][j] = value;
-				pq.add(new Pos(i, j, value));
+				map[i][j] = Integer.parseInt(st.nextToken());
+				pq.add(new Node(i, j, map[i][j]));
 			}
 		}
 		
-		calc();
-		search();
-
-		System.out.println(ans + 1);
+		for(int i = 0; i < N; i++)
+			Arrays.fill(dp[i], 1);
+		
+		bfs();
+		
+		int ans = 0;
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++)
+				ans = Math.max(ans, dp[i][j]);
+		}
+		
+		System.out.println(ans);
+		
 	}
-
-
-	private static void calc() {
+	private static void bfs() {
 		while(!pq.isEmpty()) {
-			Pos now = pq.poll();
-			int x = now.x;
-			int y = now.y;
-			
+			Node now = pq.poll();
 			for(int i = 0; i < 4; i++) {
-				int nx = x + dx[i];
-				int ny = y + dy[i];
-				if(0 <= nx && nx < N && 0 <= ny && ny < N && map[nx][ny] > map[x][y] && dp[nx][ny] <= dp[x][y])
-					dp[nx][ny] = dp[x][y] + 1;
+				int nx = now.x + dx[i];
+				int ny = now.y + dy[i];
+				if(0 <= nx && nx < N && 0 <= ny && ny < N && map[nx][ny] > map[now.x][now.y])
+					dp[nx][ny] = Math.max(dp[nx][ny], dp[now.x][now.y] + 1);
 			}
 		}
 		
-	}
-	
-	private static void search() {
-		for(int[] x : dp) {
-			for(int d : x) {
-				ans = Math.max(ans, d);
-			}
-		}
 	}
 
 }
