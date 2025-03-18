@@ -1,96 +1,54 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
+
 	static int N;
+	static int[] arr;
 	static int[] dp;
+	static int idx;
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-		
 		N = Integer.parseInt(br.readLine());
-		dp = new int[N + 1];
 		st = new StringTokenizer(br.readLine());
-		dp[1] = Integer.parseInt(st.nextToken());
-		for(int i = 0; i < N - 1; i++) {
-			int value = Integer.parseInt(st.nextToken());
-			find2(value);
-		}
 		
-		if(dp[N] != 0)
-			System.out.println(N);
-		else
-			System.out.println(ans());
-	}
-	
-	private static int ans() {
-		int left = 0;
-		int right = N;
-		int mid;
-
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if(dp[mid] == 0) {
-				if(dp[mid - 1] != 0)
-					return mid - 1;
-				right = mid - 1;
-			}
-			else if(dp[mid] != 0) {
-				if(dp[mid + 1] == 0)
-					return mid;
-				left = mid + 1;
+		arr = new int[N];
+		dp = new int[N];
+		for(int i = 0; i < N; i++)
+			arr[i] = Integer.parseInt(st.nextToken());
+		dp[0] = arr[0];
+		idx = 1;
+		
+		for(int i = 1; i < N; i++) {
+			if(dp[idx - 1] < arr[i])
+				dp[idx++] = arr[i];
+			else {
+				dp[binarySearch(arr[i])] = arr[i];;
 			}
 		}
-		return 1;
 		
-	}
-	
-	private static void find2(int num) {
-		int left = 0;
-		int right = N;
-		int mid;
-
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if(mid == 0) {
-				if(dp[1] > num)
-					dp[1] = num;
+		for(int i = 0; i < N; i++) {
+			if(dp[i] == 0) {
+				System.out.println(i);
 				return;
 			}
-			if(dp[mid] == 0) {
-				if(dp[mid - 1] == 0 || dp[mid - 1] > num)
-					right = mid;
-				else if(dp[mid - 1] < num) {
-					dp[mid] = num;
-					return;
-				}
-				else
-					return;
-			}
-			
-			else if (dp[mid] < num) {
-				if(dp[mid + 1] > num || dp[mid + 1] == 0) {
-					dp[mid + 1] = num;
-					return;
-				}
-				else if(dp[mid + 1] < num) {
-					left = mid + 1;
-				}
-				else
-					return;
-			}
-				
-			else if (dp[mid] > num) {
-				if(dp[mid - 1] < num) {
-					dp[mid] = num;
-					return;
-				}
-				right = mid - 1;
-			}
-
-			else return;
 		}
-		return;
+		System.out.println(N);
+		
+	}
+	private static int binarySearch(int v) {
+		int min = 0;
+		int max = idx - 1;
+		while(min <= max) {
+			int mid = (min + max) / 2;
+			if(dp[mid] < v)
+				min = mid + 1;
+			else
+				max = mid - 1;
+		}
+		
+		return min;
 		
 	}
 
