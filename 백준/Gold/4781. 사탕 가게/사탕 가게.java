@@ -18,7 +18,7 @@ public class Main {
 			
 			int[] w = new int[N];
 			int[] v = new int[N];
-			int[] dp = new int[(int) (M * 100) + 1];
+			int[] dp = new int[M + 1];
 			
 			for(int i = 0; i < N; i++) {
 				st = new StringTokenizer(br.readLine());
