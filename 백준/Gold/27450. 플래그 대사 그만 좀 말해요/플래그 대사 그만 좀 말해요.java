@@ -4,10 +4,10 @@ import java.io.*;
 public class Main {
 	
 	static class Voice{
-		long cnt;
-		long end;
+		int cnt;
+		int end;
 		
-		public Voice(long cnt, long end) {
+		public Voice(int cnt, int end) {
 			this.cnt = cnt;
 			this.end = end;
 		}
@@ -20,35 +20,32 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		
-		long[][] arr = new long[N][2];
+		int[][] arr = new int[N][2];
 		for(int i = 0; i < 2; i++) {
 			st = new StringTokenizer(br.readLine());
 			for(int j = 0; j < N; j++)
-				arr[j][i] = Long.parseLong(st.nextToken());
+				arr[j][i] = Integer.parseInt(st.nextToken());
 		}
 		
 		long power = 0;
 		long curCnt = 0;
 		long ans = 0;
 		
-		PriorityQueue<Voice> pq = new PriorityQueue<>((o1, o2) -> Long.compare(o1.end, o2.end));
+		ArrayDeque<Voice> dq = new ArrayDeque<>();
 		for(int i = 0; i < N; i++) {
 			power -= curCnt;
-			if(!pq.isEmpty() && pq.peek().end == i)
-				curCnt -= pq.poll().cnt;
+			if(!dq.isEmpty() && dq.peek().end == i)
+				curCnt -= dq.poll().cnt;
 			
-			long now = arr[i][0];
-			long goal = arr[i][1];
-			if(now + power >= goal)
+			long goal = arr[i][1] - arr[i][0] - power;
+			if(goal <= 0)
 				continue;
-			goal -= now + power;
-			long cnt = goal / K;
-			cnt += (goal % K != 0) ? 1 : 0;
+			
+			int cnt = (int) (goal / K + ((goal % K != 0) ? 1 : 0));
 			power += K * cnt;
 			curCnt += cnt;
 			ans += cnt;
-			pq.add(new Voice(cnt, i + K));
-			
+			dq.add(new Voice(cnt, i + K));
 		}
 		
 		System.out.println(ans);
