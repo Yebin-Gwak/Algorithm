@@ -12,6 +12,7 @@ public class Main {
 		int Q = Integer.parseInt(st.nextToken());
 		
 		HashSet<Integer>[] sets = new HashSet[N + 1];
+		HashSet<Integer> temp;
 		for(int i = 0; i <= N; i++)
 			sets[i] = new HashSet<>();
 		for(int i = 1; i <= N; i++) {
@@ -30,15 +31,22 @@ public class Main {
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 
+			if(sets[b].isEmpty())
+				continue;
+			if(sets[a].isEmpty()) {
+				temp = sets[a];
+				sets[a] = sets[b];
+				sets[b] = temp;
+				continue;
+			}
+			
 			if(sets[a].size() >= sets[b].size()) {
-				for(int n : sets[b])
-					sets[a].add(n);
-				sets[b].clear();
+				sets[a].addAll(sets[b]);
+				sets[b] = new HashSet<>(4);
 			}else {
-				for(int n : sets[a])
-					sets[b].add(n);
-				sets[a].clear();
-				HashSet<Integer> temp = sets[a];
+				sets[b].addAll(sets[a]);
+				sets[a] = new HashSet<>(4);
+				temp = sets[a];
 				sets[a] = sets[b];
 				sets[b] = temp;
 			}
