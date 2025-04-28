@@ -25,38 +25,34 @@ public class Main {
 			list[e].add(s);
 		}
 		
-		st = new StringTokenizer(br.readLine());
-		for(int i = 1; i <= N; i++)
-			rank[i] = Integer.parseInt(st.nextToken());
-		
-		System.out.println(bfs());
+		System.out.println(bfs(new StringTokenizer(br.readLine())));
 		
 	}
 
-	private static int bfs() {
-		if(rank[1] != 1)
+	private static int bfs(StringTokenizer st) {
+		if(Integer.parseInt(st.nextToken()) != 1)
 			return 0;
 		ArrayDeque<Integer> dq = new ArrayDeque<>();
 		dq.add(1);
 		visited[1] = true;
-		HashSet<Integer> set;
-		int idx = 2;
 		
+		int idx = 2;
 		while(!dq.isEmpty()) {
 			int now = dq.poll();
-			set = new HashSet<>();
-			
+			int cnt = 0;
 			for(int next : list[now]) {
 				if(!visited[next]) {
 					visited[next] = true;
-					set.add(next);
+					rank[next] = idx;
+					cnt++;
 				}
 			}
 			
-			for(int i = 0; i < set.size(); i++) {
-				if(!set.contains(rank[idx]))
+			for(int i = 0; i < cnt; i++) {
+				int next = Integer.parseInt(st.nextToken());
+				if(rank[next] != idx)
 					return 0;
-				dq.add(rank[idx++]);
+				dq.add(next);
 			}
 			
 		}
