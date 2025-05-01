@@ -4,13 +4,14 @@ import java.util.*;
 public class Main {
 	static class Node{
 		ArrayList<Node> edges = new ArrayList<>();
-		PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+		PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> o2 - o1);
 		int sum = 0;
 		
 		public Node(int sum) {
-			this.sum = sum;
-			if(sum == 1)
+			if(sum == 1) {
+				this.sum = sum;
 				pq.add(sum);
+			}
 		}
 		
 		public int cut(Node parent) {
@@ -18,6 +19,8 @@ public class Main {
 				if(next == parent)
 					continue;
 				int cnt = next.cut(this);
+				if(cnt == 0)
+					continue;
 				sum += cnt;
 				pq.add(cnt);
 			}
@@ -47,10 +50,10 @@ public class Main {
 		
 		for(int i = 0; i < N - 1; i++) {
 			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			trees[a].edges.add(trees[b]);
-			trees[b].edges.add(trees[a]);
+			Node a = trees[Integer.parseInt(st.nextToken())];
+			Node b = trees[Integer.parseInt(st.nextToken())];
+			a.edges.add(b);
+			b.edges.add(a);
 		}
 		
 		trees[1].cut(null);
