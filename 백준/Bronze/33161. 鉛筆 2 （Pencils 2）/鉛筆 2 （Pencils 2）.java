@@ -1,0 +1,1 @@
+interface Main{static void main(String[]a)throws Exception{System.out.print(new java.util.Scanner(System.in).nextInt()/5);}}
