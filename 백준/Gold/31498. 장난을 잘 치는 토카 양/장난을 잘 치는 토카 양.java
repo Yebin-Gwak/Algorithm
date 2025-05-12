@@ -24,13 +24,13 @@ public class Main {
 		
 		long min = 0;
 		long max = B / K + ((B % K == 0) ? 0 : 1);
-		
 		long ans = -1;
 		
 		while(min <= max) {
 			long mid = (min + max) / 2 + (min + max) % 2;
+			long toka = mid * (2 * B - K * (mid - 1)) / 2;
 			
-			if(binarySearch(mid)) {
+			if(toka >= A) {
 				max = mid - 1;
 				ans = mid;
 			}else {
@@ -41,11 +41,6 @@ public class Main {
 		
 		System.out.println((dol >= A + C) ? -1 : ans);
 		
-	}
-
-	private static boolean binarySearch(long mid) {
-		long toka = mid * (2 * B - K * (mid - 1)) / 2;
-		return toka >= A;
 	}
 
 }
