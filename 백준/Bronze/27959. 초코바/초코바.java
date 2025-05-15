@@ -1,0 +1,1 @@
+import java.util.*;interface Main{static void main(String[]a){Scanner c=new Scanner(System.in);System.out.print((c.nextInt()*100>=c.nextInt())?"Yes":"No");}}
