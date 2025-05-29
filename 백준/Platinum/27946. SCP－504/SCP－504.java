@@ -16,11 +16,10 @@ public class Main {
 				if(!isFirst[c])
 					continue;
 				isFirst[c] = false;
-				sb.append(c).append(i).append('.');
+				sb.append(c).append(i);
 			}
 			String key = sb.toString();
 			map.put(key, map.getOrDefault(key, 0) + 1);
-			
 		}
 		
 		public int find(String s) {
@@ -33,7 +32,7 @@ public class Main {
 				if(!isFirst[c])
 					continue;
 				isFirst[c] = false;
-				sb.append(c).append(i).append('.');
+				sb.append(c).append(i);
 				String key = sb.toString();
 				cnt += map.getOrDefault(key, 0);
 			}
