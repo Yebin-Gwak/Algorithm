@@ -3,23 +3,19 @@ import java.io.*;
 
 public class Main {
 	
-	static int N, M;
-	static long minT;
-	static long[] times;
-	
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 		if(N <= M) {
 			System.out.println(N);
 			return;
 		}
 		
 		st = new StringTokenizer(br.readLine());
-		times = new long[M];
-		minT = Long.MAX_VALUE;
+		long[] times = new long[M];
+		long minT = Long.MAX_VALUE;
 		for(int i = 0; i < M; i++) {
 			long n = Long.parseLong(st.nextToken());
 			times[i] = n;
@@ -29,19 +25,25 @@ public class Main {
 		long min = 1;
 		long max = minT * N;
 		long ans = max;
+		long pass = 0;
 		while(min <= max) {
-			long mid = (min + max) / 2 + (min + max) % 2;
-			if(binarySearch(mid) >= N) {
+			long mid = (min + max) / 2;
+			
+			long cnt = M;
+			for(int i = 0; i < M; i++)
+				cnt += mid / times[i];
+			
+			if(cnt >= N) {
 				ans = mid;
+				pass = cnt;
 				max = mid - 1;
 			}else {
 				min = mid + 1;
 			}
 		}
 		
-		long gap = (ans == 1 ? M : binarySearch(ans - 1));
-		for(int i = 0; i < M; i++) {
-			if(ans % times[i] == 0 && ++gap == N) {
+		for(int i = M - 1; i >= 0; i--) {
+			if(ans % times[i] == 0 && pass-- == N) {
 				System.out.println(i + 1);
 				return;
 			}
@@ -49,11 +51,4 @@ public class Main {
 		
 	}
 
-	private static long binarySearch(long mid) {
-		long cnt = M;
-		for(int i = 0; i < M; i++)
-			cnt += mid / times[i];
-		
-		return cnt;
-	}
 }
