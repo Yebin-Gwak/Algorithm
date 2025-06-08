@@ -1,0 +1,1 @@
+interface Main{static void main(String[]a){System.out.println((new java.util.Scanner(System.in).nextLine().contains("9"))?"F":"S");}}
