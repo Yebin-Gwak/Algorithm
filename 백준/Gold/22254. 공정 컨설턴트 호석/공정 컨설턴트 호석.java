@@ -38,10 +38,12 @@ public class Main {
 		for(long job : jobs) {
 			long t = ((pq.size() == K) ? pq.poll() : 0) + job;
 			max = Math.max(max, t);
+			if(max > X)
+				return false;
 			pq.add(t);
 		}
 		
-		return (max <= X) ? true : false;
+		return true;
 		
 	}
 
