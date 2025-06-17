@@ -3,21 +3,21 @@ import java.util.*;
 
 public class Main {
 
-	static long[] jobs;
+	static int[] jobs;
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int X = Integer.parseInt(st.nextToken());
 		
-		jobs = new long[N];
+		jobs = new int[N];
 		st = new StringTokenizer(br.readLine());
 		for(int i = 0; i < N; i++)
-			jobs[i] = Long.parseLong(st.nextToken());
+			jobs[i] = Integer.parseInt(st.nextToken());
 		
-		int ans = X;
+		int ans = N;
 		int min = 1;
-		int max = X;
+		int max = N;
 		
 		while(min <= max) {
 			int mid = (min + max) / 2;
@@ -33,10 +33,10 @@ public class Main {
 	}
 	
 	private static boolean binarySearch(int X, int K) {
-		PriorityQueue<Long> pq = new PriorityQueue<>();
-		long max = 0;
-		for(long job : jobs) {
-			long t = ((pq.size() == K) ? pq.poll() : 0) + job;
+		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		int max = 0;
+		for(int job : jobs) {
+			int t = ((pq.size() == K) ? pq.poll() : 0) + job;
 			max = Math.max(max, t);
 			if(max > X)
 				return false;
