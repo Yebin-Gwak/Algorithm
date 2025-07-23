@@ -6,6 +6,9 @@ public class Main {
 	static class SegTree{
 		int n;
 		long[] tree;
+		int target;
+		int left;
+		int right;
 		
 		SegTree(long[] arr){
 			n = arr.length;
@@ -26,10 +29,11 @@ public class Main {
 		}
 		
 		void update(int target, long v) {
-			update(1, 1, n, target, v);
+			this.target = target;
+			update(1, 1, n, v);
 		}
 		
-		void update(int idx, int start, int end, int target, long v) {
+		void update(int idx, int start, int end, long v) {
 			if(start == end) {
 				tree[idx] = v;
 				return;
@@ -37,23 +41,25 @@ public class Main {
 			
 			int mid = (start + end) / 2;
 			if(target <= mid)
-				update(idx * 2, start, mid, target, v);
+				update(idx * 2, start, mid, v);
 			else
-				update(idx * 2 + 1, mid + 1, end, target, v);
+				update(idx * 2 + 1, mid + 1, end, v);
 			tree[idx] = tree[idx * 2] + tree[idx * 2 + 1];
 		}
 		
 		long query(int left, int right) {
-			return get(1, 1, n, left, right);
+			this.left = left;
+			this.right = right;
+			return get(1, 1, n);
 		}
 		
-		long get(int idx, int start, int end, int left, int right) {
+		long get(int idx, int start, int end) {
 			if(right < start || left > end)
 				return 0;
 			if(left <= start && end <= right)
 				return tree[idx];
 			int mid = (start + end) / 2;
-			return get(idx * 2, start, mid, left, right) + get(idx * 2 + 1, mid + 1, end, left, right);
+			return get(idx * 2, start, mid) + get(idx * 2 + 1, mid + 1, end);
 		}
 	}
 
