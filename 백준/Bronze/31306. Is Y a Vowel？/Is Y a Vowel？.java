@@ -1,0 +1,20 @@
+import java.io.*;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String s = br.readLine();
+		int cnt = 0;
+		int y = 0;
+		for(char c : s.toCharArray()) {
+			if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+				cnt++;
+			else if(c == 'y')
+				y++;
+		}
+		
+		System.out.println(cnt + " " + (cnt + y));
+		
+	}
+}
